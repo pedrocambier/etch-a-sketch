@@ -6,7 +6,14 @@ function addPixel (size, parentContainer) {
   parentContainer.appendChild(pixel);
 }
 
+const removeAllChildren = parentContainer => {
+  if(parentContainer.firstChild) {
+    parentContainer.removeChild(parentContainer.firstChild);
+    removeAllChildren(parentContainer);
+  }
+}
 const createGrid = (size, parentContainer) => {
+  removeAllChildren(parentContainer);
   const totalWidth = parentContainer.offsetWidth;
   const pixelWidth = totalWidth/size;
   for (let i=0; i<(size*size); i++){
@@ -14,7 +21,7 @@ const createGrid = (size, parentContainer) => {
   }
 }
 
-const test = () => {
+const test = (size) => {
   const div = document.querySelector('div.grid-container');
-  createGrid(16, div);
+  createGrid(size, div);
 }
