@@ -1,3 +1,4 @@
+const containerDiv = document.querySelector('div.grid-container');
 let pixelCount = 0;
 let mouseDown = false;
 let lineCoords = new Array();
@@ -24,8 +25,13 @@ const mouseEnter = (event) => {
 
 const mouseMove = (event) => {
   if(mouseDown) {
-    const xVal = event.pageX;
-    const yVal = event.pageY;
+    const parentPos = containerDiv.getBoundingClientRect();
+    const childPos = event.target.getBoundingClientRect();
+    const relX = childPos.x - parentPos.x;
+    const relY = childPos.y - parentPos.y;
+    const xVal = relX + event.offsetX;
+    const yVal = relY + event.offsetY;
+    // console.log(`(${parentPos.x}, ${parentPos.y})   (${childPos.x}, ${childPos.y})   (${relX}, ${relY})`);
     lineCoords.push({x: xVal, y: yVal});
   }
 }
@@ -45,10 +51,27 @@ function addPixel (size, parentContainer) {
 }
 
 const removeAllChildren = parentContainer => {
-  if(parentContainer.firstChild) {
-    parentContainer.removeChild(parentContainer.firstChild);
-    removeAllChildren(parentContainer);
+  let child = parentContainer.lastElementChild;
+  while (child) {
+    parentContainer.removeChild(child);
+    child = parentContainer.lastElementChild;
   }
+}
+
+const mapLines = (parentContainer) => {
+  const parentPos = parentContainer.getBoundingClientRect();
+  const parentX = parentPos.x;
+  const parentY = parentPos.y;
+  lineCoordsArray.forEach (line => {
+    line.forEach ( coord => {
+      const x = coord.x + parentX;
+      const y = coord.y + parentY;
+      const nodeAtCoord = document.elementFromPoint(x,y);
+      if(!nodeAtCoord.classList.contains('paint')) {
+        nodeAtCoord.classList.add('paint');
+      }
+    })
+  })
 }
 
 const createGrid = (size, parentContainer) => {
@@ -60,10 +83,11 @@ const createGrid = (size, parentContainer) => {
   for (let i=0; i<(size*size); i++){
     addPixel(pixelWidth, parentContainer);
   }
+  mapLines(parentContainer);
 }
 
 const test = (size) => {
-  const div = document.querySelector('div.grid-container');
+  const div = containerDiv;
   div.addEventListener('mousemove', mouseMove);
   createGrid(size, div);
 }

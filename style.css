@@ -5,12 +5,15 @@
   flex-wrap: wrap;
 }
 
+.🖼 {
+  box-sizing: border-box
+}
+
 .grid-container {
   width: 960px;
   background-color: rebeccapurple;
 }
 .grid-pixel {
-  border: 1px solid #000;
   background-color: red;
 }
 
