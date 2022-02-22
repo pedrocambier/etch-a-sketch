@@ -4,6 +4,11 @@ let mouseDown = false;
 let lineCoords = new Array();
 let lineCoordsArray = new Array();
 
+const colorInput = event => {
+  const colorpicker = document.querySelector('label');
+  colorpicker.style.backgroundColor = event.target.value;
+}
+
 window.addEventListener('mousedown', () => {
   mouseDown = true;
 });
@@ -99,5 +104,8 @@ const test = (size) => {
 
 const btn = document.querySelector('button');
 btn.addEventListener('click', mouseClickDown);
+
+const colorControl = document.querySelector('input[type="color"]');
+colorControl.addEventListener('input', colorInput);
 
 test(16);
