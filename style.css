@@ -40,14 +40,34 @@ button:active {
   padding: 12px 32px;
   border-radius: 24px;
 }
+
 .grid-container {
   width: 960px;
   background-color: rebeccapurple;
 }
+
 .grid-pixel {
   background-color: red;
 }
 
 .grid-pixel.paint {
   background-color: black;
+}
+
+.slidecontainer::before {
+  background-image: url('/imgs/grid_small.png');
+  background-size: 16px 16px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content: "";
+}
+
+.slidecontainer::after {
+  background-image: url('/imgs/grid_big.png');
+  background-size: 16px 16px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content: "";
 }
