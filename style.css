@@ -1,3 +1,25 @@
+button {
+  background-color: transparent;
+  border: 2px solid;
+  border-color: transparent;
+  border-radius: 8px;
+  outline: none;
+  padding: 12px 12px;
+  transition: all .1s ease-out;
+}
+
+button:hover {
+  border-color: rgba(128, 128, 128, 0.575);
+  box-shadow: 0 4px #999;
+  transform: translate(0, -2px);
+}
+
+button:active {
+  background-color: rgba(153, 153, 153, 0.342);
+  box-shadow: 0 2px #666;
+  transform: translateY(1px);
+}
+
 .💪 {
   display: flex;
   justify-content: center;
@@ -5,10 +27,19 @@
   flex-wrap: wrap;
 }
 
+.↕️ {
+  flex-direction: column;
+}
+
 .🖼 {
   box-sizing: border-box
 }
 
+.controls-container {
+  background-color: rgba(128, 128, 128, 0.425);
+  padding: 12px 32px;
+  border-radius: 24px;
+}
 .grid-container {
   width: 960px;
   background-color: rebeccapurple;

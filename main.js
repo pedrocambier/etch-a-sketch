@@ -14,6 +14,11 @@ window.addEventListener('mouseup', () => {
   lineCoords = [];
 });
 
+const mouseClickDown = (event) => {
+  const element = (event.target.nodeName === 'I') ? event.target.parentNode : event.target;
+  element.classList.add('clicked');
+}
+
 const mouseEnter = (event) => {
   const div = event.target;
   if(mouseDown) {
@@ -91,5 +96,8 @@ const test = (size) => {
   div.addEventListener('mousemove', mouseMove);
   createGrid(size, div);
 }
+
+const btn = document.querySelector('button');
+btn.addEventListener('click', mouseClickDown);
 
 test(16);
