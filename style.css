@@ -1,22 +1,19 @@
 button {
   background-color: transparent;
-  border: 2px solid;
+  border: none;
+  /* border: 2px solid;
   border-color: transparent;
-  border-radius: 8px;
+  border-radius: 8px; */
+  padding: 12px;
   outline: none;
-  padding: 12px 12px;
   transition: all .1s ease-out;
 }
 
 button:hover {
-  border-color: rgba(128, 128, 128, 0.575);
-  box-shadow: 0 4px #999;
   transform: translate(0, -2px);
 }
 
 button:active {
-  background-color: rgba(153, 153, 153, 0.342);
-  box-shadow: 0 2px #666;
   transform: translateY(1px);
 }
 
@@ -25,17 +22,20 @@ label {
   height: 24px;
   border-radius: 50%;
   /* background-color: #000; */
-  background:linear-gradient(225deg, Red, Orange, Yellow, Green, violet);
-  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+  /* background:linear-gradient(225deg, Red, Orange, Yellow, Green, violet); */
+  /* box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6); */
 }
 
+#myRange {
+  width: 120px;
+}
 #myColor {
   visibility: hidden;
 }
 
 .💪 {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -50,13 +50,21 @@ label {
 
 .controls-container {
   background-color: rgba(128, 128, 128, 0.425);
-  padding: 12px 32px;
+  padding: 12px 20px;
   border-radius: 24px;
 }
 
 .grid-container {
   width: 960px;
   background-color: rebeccapurple;
+}
+
+.container-btn {
+  width: 120px;
+}
+
+.💪.container-btn {
+  justify-content: space-between;
 }
 
 .grid-pixel {
@@ -73,7 +81,6 @@ label {
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin: auto 4px;
   content: "";
 }
 
@@ -83,7 +90,6 @@ label {
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin: auto 4px;
   content: "";
 }
 
@@ -95,3 +101,18 @@ label {
   background-color: #999;
 }
 
+.btn-erase {
+  background: url('/imgs/bin.png') no-repeat;
+  background-size: 24px 24px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+
+.btn-rainbow {
+  background: url('/imgs/rainbow.png') no-repeat;
+  background-size: 24px 24px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
