@@ -1,3 +1,7 @@
+body {
+  background-color: #999;
+}
+
 button {
   background-color: transparent;
   border: none;
@@ -49,15 +53,22 @@ label {
   box-sizing: border-box
 }
 
+.container-position {
+  position: relative;
+}
+
 .controls-container {
   background-color: rgba(128, 128, 128, 0.425);
   padding: 12px 20px;
   border-radius: 24px;
+  position: absolute;
+  bottom: 10%;
 }
 
 .grid-container {
   width: 960px;
   border-radius: 24px;
+  background: radial-gradient(rgb(187, 184, 187), #fefefe);
 }
 
 .container-btn {
@@ -69,7 +80,7 @@ label {
 }
 
 .grid-pixel {
-  background-color: red;
+  background-color: transparent;
 }
 
 .grid-pixel.paint {
