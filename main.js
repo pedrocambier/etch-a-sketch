@@ -26,15 +26,15 @@ const mouseClickDown = (event) => {
 
 const mouseEnter = (event) => {
   const div = event.target;
-  if(mouseDown) {
-    if(!div.classList.contains('paint')) {
+  if (mouseDown) {
+    if (!div.classList.contains('paint')) {
       div.classList.add('paint');
     }
   }
 }
 
 const mouseMove = (event) => {
-  if(mouseDown) {
+  if (mouseDown) {
     const parentPos = containerDiv.getBoundingClientRect();
     const childPos = event.target.getBoundingClientRect();
     const relX = childPos.x - parentPos.x;
@@ -42,7 +42,7 @@ const mouseMove = (event) => {
     const xVal = relX + event.offsetX;
     const yVal = relY + event.offsetY;
     // console.log(`(${parentPos.x}, ${parentPos.y})   (${childPos.x}, ${childPos.y})   (${relX}, ${relY})`);
-    lineCoords.push({x: xVal, y: yVal});
+    lineCoords.push({ x: xVal, y: yVal });
   }
 }
 
@@ -51,13 +51,14 @@ const getPainted = () => {
   return paintedPixels;
 }
 
-function addPixel (size, parentContainer) {
+function addPixel(size, parentContainer) {
   const pixel = document.createElement('div');
   pixel.style.height = `${size}px`;
   pixel.style.width = `${size}px`;
   pixel.classList.add('grid-pixel', `'pixel-${pixelCount++}'`);
   pixel.addEventListener('mouseenter', mouseEnter);
   parentContainer.appendChild(pixel);
+  return pixel;
 }
 
 const removeAllChildren = parentContainer => {
@@ -72,12 +73,12 @@ const mapLines = (parentContainer) => {
   const parentPos = parentContainer.getBoundingClientRect();
   const parentX = parentPos.x;
   const parentY = parentPos.y;
-  lineCoordsArray.forEach (line => {
-    line.forEach ( coord => {
+  lineCoordsArray.forEach(line => {
+    line.forEach(coord => {
       const x = coord.x + parentX;
       const y = coord.y + parentY;
-      const nodeAtCoord = document.elementFromPoint(x,y);
-      if(!nodeAtCoord.classList.contains('paint')) {
+      const nodeAtCoord = document.elementFromPoint(x, y);
+      if (!nodeAtCoord.classList.contains('paint')) {
         nodeAtCoord.classList.add('paint');
       }
     })
@@ -89,9 +90,17 @@ const createGrid = (size, parentContainer) => {
   paintedPixels = getPainted();
   removeAllChildren(parentContainer);
   const totalWidth = parentContainer.offsetWidth;
-  const pixelWidth = totalWidth/size;
-  for (let i=0; i<(size*size); i++){
-    addPixel(pixelWidth, parentContainer);
+  const pixelWidth = totalWidth / size;
+  for (let i = 0; i < (size * size); i++) {
+    const pixel = addPixel(pixelWidth, parentContainer);
+    const topLeftRadius = 24 * (i === 0);
+    const topRightRadius = 24 * ((i + 1) === size);
+    const bottomLeftRadius = 24 * (i === (size * size - size));
+    const bottomRightRadius = 24 * (i === (size * size - 1));
+    pixel.style.borderTopLeftRadius = `${topLeftRadius}px`;
+    pixel.style.borderTopRightRadius = `${topRightRadius}px`;
+    pixel.style.borderBottomLeftRadius = `${bottomLeftRadius}px`;
+    pixel.style.borderBottomRightRadius = `${bottomRightRadius}px`;
   }
   mapLines(parentContainer);
 }
