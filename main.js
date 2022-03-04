@@ -1,21 +1,18 @@
 const containerDiv = document.querySelector('div.grid-container');
+const controlsContainer = document.querySelector('.controls-container');
 let pixelCount = 0;
 let mouseDown = false;
 let lineCoords = new Array();
-let lineCoordsArray = new Array();
-let lineColorArray = new Array();
 const rainbowArray = ['violet', 'indigo', 'blue', 'green', 'yellow', 'orange', 'red'];
 let drawColor = "black";
 let rainbowOn = false;
 const slider = document.getElementById("myRange");
-const minGrid = 16;
-const maxGrid = 128;
+const gridSize = 960;
 
 slider.onchange = function () {
   const div = containerDiv;
-  const rangeValue = this.value/100;
-  const gridSize = (Math.floor(rangeValue*(maxGrid-minGrid))) + minGrid;
-  createGrid(gridSize, div);
+  console.log(this.value);
+  createGrid(this.value, div);
 }
 
 const getPainted = () => {
@@ -39,9 +36,6 @@ window.addEventListener('mousedown', () => {
 
 window.addEventListener('mouseup', () => {
   mouseDown = false;
-  lineCoordsArray.push(lineCoords);
-  lineColorArray.push(drawColor);
-  lineCoords = [];
 });
 
 const eraseClickEvent = event => {
@@ -52,6 +46,7 @@ const eraseClickEvent = event => {
       pixel.style.backgroundColor = 'transparent';
     }
   });
+  lineCoords = [];
 }
 
 const rainbowClickEvent = event => {
@@ -63,9 +58,7 @@ const rainbowClickEvent = event => {
 const mouseEnter = (event) => {
   const div = event.target;
   if (mouseDown) {
-    if (!div.classList.contains('paint')) {
-      div.classList.add('paint');
-    }
+    div.classList.add('paint');
     if (rainbowOn) {
       div.style.backgroundColor = rainbowArray[Math.floor(Math.random() * 7)];
     } else {
@@ -75,15 +68,18 @@ const mouseEnter = (event) => {
 }
 
 const mouseMove = (event) => {
+  const parentPos = containerDiv.getBoundingClientRect();
+  const childPos = event.target.getBoundingClientRect();
+  const relX = childPos.x - parentPos.x;
+  const relY = childPos.y - parentPos.y;
+  const xVal = relX + event.offsetX;
+  const yVal = relY + event.offsetY;
+  console.log(`(${xVal}, ${yVal})`);
+
   if (mouseDown) {
-    const parentPos = containerDiv.getBoundingClientRect();
-    const childPos = event.target.getBoundingClientRect();
-    const relX = childPos.x - parentPos.x;
-    const relY = childPos.y - parentPos.y;
-    const xVal = relX + event.offsetX;
-    const yVal = relY + event.offsetY;
-    // console.log(`(${parentPos.x}, ${parentPos.y})   (${childPos.x}, ${childPos.y})   (${relX}, ${relY})`);
-    lineCoords.push({ x: xVal, y: yVal });
+    lineCoords.push({ x: xVal, y: yVal, color: drawColor });
+  } else if (yVal > 0.9*gridSize) {
+    controlsContainer.style.visibility = 'visible';
   }
 }
 
@@ -91,60 +87,60 @@ function addPixel(size, parentContainer) {
   const pixel = document.createElement('div');
   pixel.style.height = `${size}px`;
   pixel.style.width = `${size}px`;
-  pixel.classList.add('grid-pixel', `'pixel-${pixelCount++}'`);
+  pixel.classList.add('grid-pixel', `pixel-${pixelCount++}`);
   pixel.addEventListener('mouseenter', mouseEnter);
   parentContainer.appendChild(pixel);
   return pixel;
 }
 
 const removeAllChildren = parentContainer => {
-  let child = parentContainer.lastElementChild;
-  while (child) {
-    parentContainer.removeChild(child);
-    child = parentContainer.lastElementChild;
-  }
+  parentContainer.replaceChildren();
 }
 
 const mapLines = (parentContainer) => {
   const parentPos = parentContainer.getBoundingClientRect();
   const parentX = parentPos.x;
   const parentY = parentPos.y;
-  lineCoordsArray.forEach(line => {
-    line.forEach((coord, index) => {
-      const x = coord.x + parentX;
-      const y = coord.y + parentY;
-      const nodeAtCoord = document.elementFromPoint(x, y);
-      if (!nodeAtCoord.classList.contains('paint')) {
-        nodeAtCoord.classList.add('paint');
-        nodeAtCoord.style.backgroundColor = lineColorArray[index];
-      }
-    })
-  })
+  for (let i = 0; i < lineCoords.length; i++) {
+    const x = lineCoords[i].x + parentX;
+    const y = lineCoords[i].y + parentY;
+    const nodeAtCoord = document.elementFromPoint(x, y);
+    nodeAtCoord.classList.add('paint');
+    nodeAtCoord.style.backgroundColor = lineCoords[i].color;
+  }
 }
 
 const createGrid = (size, parentContainer) => {
   pixelCount = 0;
+  console.time("remove");
   removeAllChildren(parentContainer);
+  console.timeEnd("remove");
   const totalWidth = parentContainer.offsetWidth;
   const pixelWidth = totalWidth / size;
+  const topLeftIndex = 0;
+  const topRightIndex = size - 1;
+  const bottomRightIndex = size * size - 1;
+  const bottomLeftIndex = size * size - size;
+  console.time("add");
   for (let i = 0; i < (size * size); i++) {
-    const pixel = addPixel(pixelWidth, parentContainer);
-    const topLeftRadius = 24 * (i === 0);
-    const topRightRadius = 24 * ((i + 1) === size);
-    const bottomLeftRadius = 24 * (i === (size * size - size));
-    const bottomRightRadius = 24 * (i === (size * size - 1));
-    pixel.style.borderTopLeftRadius = `${topLeftRadius}px`;
-    pixel.style.borderTopRightRadius = `${topRightRadius}px`;
-    pixel.style.borderBottomLeftRadius = `${bottomLeftRadius}px`;
-    pixel.style.borderBottomRightRadius = `${bottomRightRadius}px`;
+    addPixel(pixelWidth, parentContainer);
   }
+  console.timeEnd("add");
+  let cornerPixel = document.querySelector(`.pixel-${topLeftIndex}`);
+  cornerPixel.style.borderTopLeftRadius = '24px';
+  cornerPixel = document.querySelector(`.pixel-${topRightIndex}`);
+  cornerPixel.style.borderTopRightRadius = '24px';
+  cornerPixel = document.querySelector(`.pixel-${bottomRightIndex}`);
+  cornerPixel.style.borderBottomRightRadius = '24px';
+  cornerPixel = document.querySelector(`.pixel-${bottomLeftIndex}`);
+  cornerPixel.style.borderBottomLeftRadius = '24px';
+  console.time("map");
   mapLines(parentContainer);
+  console.timeEnd("map");
 }
 
 const test = (size) => {
-  const div = containerDiv;
-  div.addEventListener('mousemove', mouseMove);
-  createGrid(size, div);
+  createGrid(size, containerDiv);
 }
 
 const btnErase = document.querySelector('.btn-erase');
@@ -155,5 +151,7 @@ btnRainbow.addEventListener('click', rainbowClickEvent);
 
 const colorControl = document.querySelector('input[type="color"]');
 colorControl.addEventListener('input', colorInput);
+
+containerDiv.addEventListener('mousemove', mouseMove);
 
 test(16);
