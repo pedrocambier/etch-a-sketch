@@ -24,10 +24,24 @@ button:active {
 label {
   width: 24px;
   height: 24px;
-  border-radius: 50%;
-  /* background-color: #000; */
-  /* background:linear-gradient(225deg, Red, Orange, Yellow, Green, violet); */
-  /* box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6); */
+  border-radius: 8px;
+  background-color: #000;
+}
+
+.🌈 {
+  background:linear-gradient(90deg,
+                            rgba(76, 0, 130, 0.7),
+                            rgba(76, 0, 130, 0.7) 20%,
+                            rgba(0, 128, 0, 0.7) 20%,
+                            rgba(0, 128, 0, 0.7) 40%,
+                            rgba(255, 255, 0, 0.7) 40%,
+                            rgba(255, 255, 0, 0.7) 60%,
+                            rgba(255, 166, 0, 0.7) 60%,
+                            rgba(255, 166, 0, 0.7) 80%,
+                            rgba(255, 0, 0, 0.7) 80%
+  );
+
+
 }
 
 #myRange {
@@ -63,6 +77,7 @@ label {
   border-radius: 24px;
   position: absolute;
   bottom: 10%;
+  /* visibility: hidden; */
 }
 
 .grid-container {
@@ -81,10 +96,6 @@ label {
 
 .grid-pixel {
   background-color: transparent;
-}
-
-.grid-pixel.paint {
-  background-color: black;
 }
 
 .slidecontainer::before {

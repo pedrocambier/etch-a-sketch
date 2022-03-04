@@ -3,10 +3,20 @@ let pixelCount = 0;
 let mouseDown = false;
 let lineCoords = new Array();
 let lineCoordsArray = new Array();
+let lineColorArray = new Array();
+const rainbowArray = ['violet', 'indigo', 'blue', 'green', 'yellow', 'orange', 'red'];
+let drawColor = "black";
+let rainbowOn = false;
+
+const getPainted = () => {
+  let paintedPixels = document.querySelectorAll('.paint');
+  return paintedPixels;
+}
 
 const colorInput = event => {
   const colorpicker = document.querySelector('label');
-  colorpicker.style.backgroundColor = event.target.value;
+  drawColor = event.target.value;
+  colorpicker.style.backgroundColor = drawColor;
 }
 
 window.addEventListener('mousedown', () => {
@@ -16,12 +26,24 @@ window.addEventListener('mousedown', () => {
 window.addEventListener('mouseup', () => {
   mouseDown = false;
   lineCoordsArray.push(lineCoords);
+  lineColorArray.push(drawColor);
   lineCoords = [];
 });
 
-const mouseClickDown = (event) => {
-  const element = (event.target.nodeName === 'I') ? event.target.parentNode : event.target;
-  element.classList.add('clicked');
+const eraseClickEvent = event => {
+  const paintedPixels = getPainted();
+  paintedPixels.forEach(pixel => {
+    if (pixel.classList.contains('paint')) {
+      pixel.classList.remove('paint');
+      pixel.style.backgroundColor = 'transparent';
+    }
+  });
+}
+
+const rainbowClickEvent = event => {
+  rainbowOn = !rainbowOn;
+  const colorpicker = document.querySelector('label');
+  colorpicker.classList.toggle('🌈');
 }
 
 const mouseEnter = (event) => {
@@ -29,6 +51,11 @@ const mouseEnter = (event) => {
   if (mouseDown) {
     if (!div.classList.contains('paint')) {
       div.classList.add('paint');
+    }
+    if (rainbowOn) {
+      div.style.backgroundColor = rainbowArray[Math.floor(Math.random() * 7)];
+    } else {
+      div.style.backgroundColor = drawColor;
     }
   }
 }
@@ -44,11 +71,6 @@ const mouseMove = (event) => {
     // console.log(`(${parentPos.x}, ${parentPos.y})   (${childPos.x}, ${childPos.y})   (${relX}, ${relY})`);
     lineCoords.push({ x: xVal, y: yVal });
   }
-}
-
-const getPainted = () => {
-  let paintedPixels = document.querySelectorAll('.paint');
-  return paintedPixels;
 }
 
 function addPixel(size, parentContainer) {
@@ -74,12 +96,13 @@ const mapLines = (parentContainer) => {
   const parentX = parentPos.x;
   const parentY = parentPos.y;
   lineCoordsArray.forEach(line => {
-    line.forEach(coord => {
+    line.forEach((coord, index) => {
       const x = coord.x + parentX;
       const y = coord.y + parentY;
       const nodeAtCoord = document.elementFromPoint(x, y);
       if (!nodeAtCoord.classList.contains('paint')) {
         nodeAtCoord.classList.add('paint');
+        nodeAtCoord.style.backgroundColor = lineColorArray[index];
       }
     })
   })
@@ -87,7 +110,6 @@ const mapLines = (parentContainer) => {
 
 const createGrid = (size, parentContainer) => {
   pixelCount = 0;
-  paintedPixels = getPainted();
   removeAllChildren(parentContainer);
   const totalWidth = parentContainer.offsetWidth;
   const pixelWidth = totalWidth / size;
@@ -111,8 +133,11 @@ const test = (size) => {
   createGrid(size, div);
 }
 
-const btn = document.querySelector('button');
-btn.addEventListener('click', mouseClickDown);
+const btnErase = document.querySelector('.btn-erase');
+btnErase.addEventListener('click', eraseClickEvent);
+
+const btnRainbow = document.querySelector('.btn-rainbow');
+btnRainbow.addEventListener('click', rainbowClickEvent);
 
 const colorControl = document.querySelector('input[type="color"]');
 colorControl.addEventListener('input', colorInput);
