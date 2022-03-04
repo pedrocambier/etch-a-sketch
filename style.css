@@ -44,12 +44,12 @@ label {
 
 }
 
-#myRange {
-  width: 120px;
-}
-
 #myColor {
   visibility: hidden;
+}
+
+.paint {
+  opacity: 0.7;
 }
 
 .💪 {
@@ -98,6 +98,10 @@ label {
   background-color: transparent;
 }
 
+.slidecontainer {
+  width: 160px;
+}
+
 .slidecontainer::before {
   background-image: url('/imgs/grid_small.png');
   background-size: 16px 16px;
@@ -105,6 +109,7 @@ label {
   width: 16px;
   height: 16px;
   content: "";
+  vertical-align: middle;
 }
 
 .slidecontainer::after {
@@ -114,6 +119,7 @@ label {
   width: 16px;
   height: 16px;
   content: "";
+  vertical-align: middle;
 }
 
 .divider {
@@ -138,4 +144,41 @@ label {
   display: inline-block;
   width: 24px;
   height: 24px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 70%;
+  height: 2px;
+  outline: none;
+  background-color: #999;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  vertical-align: middle;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #666;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #666;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
 }

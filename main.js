@@ -7,6 +7,16 @@ let lineColorArray = new Array();
 const rainbowArray = ['violet', 'indigo', 'blue', 'green', 'yellow', 'orange', 'red'];
 let drawColor = "black";
 let rainbowOn = false;
+const slider = document.getElementById("myRange");
+const minGrid = 16;
+const maxGrid = 128;
+
+slider.onchange = function () {
+  const div = containerDiv;
+  const rangeValue = this.value/100;
+  const gridSize = (Math.floor(rangeValue*(maxGrid-minGrid))) + minGrid;
+  createGrid(gridSize, div);
+}
 
 const getPainted = () => {
   let paintedPixels = document.querySelectorAll('.paint');
