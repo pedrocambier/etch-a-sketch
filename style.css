@@ -39,7 +39,7 @@ label {
                             rgba(255, 166, 0, 0.7) 60%,
                             rgba(255, 166, 0, 0.7) 80%,
                             rgba(255, 0, 0, 0.7) 80%
-  );
+  ) !important;
 
 
 }
@@ -83,7 +83,7 @@ label {
 .grid-container {
   width: 960px;
   border-radius: 24px;
-  background: radial-gradient(rgb(187, 184, 187), #fefefe);
+  background: radial-gradient(rgb(223, 221, 223), #f1f0f0);
 }
 
 .container-btn {

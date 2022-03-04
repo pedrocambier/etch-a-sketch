@@ -16,6 +16,10 @@ const getPainted = () => {
 const colorInput = event => {
   const colorpicker = document.querySelector('label');
   drawColor = event.target.value;
+  if (colorpicker.classList.contains('🌈')) {
+    colorpicker.classList.remove('🌈');
+    rainbowOn = false;
+  }
   colorpicker.style.backgroundColor = drawColor;
 }
 
