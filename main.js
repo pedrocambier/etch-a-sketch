@@ -14,17 +14,21 @@ let fadeTimeout;
 const fadeInControls = () => {
   controlsContainer.style.bottom = '5%';
   controlVisible = true;
-  fadeTimeout = setTimeout( fadeOutControls, 3000);
+  fadeTimeout = setTimeout(fadeOutControls, 30000);
 }
 
 const fadeOutControls = () => {
-  controlsContainer.style.bottom = '-7%';
-  controlVisible = false;
+  if (controlVisible) {
+    controlsContainer.style.bottom = '-7%';
+    controlVisible = false;
+  }
 }
 
 const clearFadeTimeout = (reset = true) => {
-  clearTimeout(fadeTimeout);
-  if (reset) fadeOutControls();
+  if (controlVisible) {
+    clearTimeout(fadeTimeout);
+    if (reset) fadeOutControls();
+  }
 }
 
 const mouseEnterControls = event => {
@@ -32,7 +36,18 @@ const mouseEnterControls = event => {
 }
 
 const mouseLeaveControls = event => {
-  fadeTimeout = setTimeout( fadeOutControls, 1000);
+  fadeTimeout = setTimeout(fadeOutControls, 10000);
+}
+
+const mouseDownPixel = event => {
+  clearFadeTimeout();
+  const div = event.target;
+  div.classList.add('paint');
+  if (rainbowOn) {
+    div.style.backgroundColor = rainbowArray[Math.floor(Math.random() * 7)];
+  } else {
+    div.style.backgroundColor = drawColor;
+  }
 }
 
 controlsContainer.addEventListener('mouseenter', mouseEnterControls);
@@ -87,6 +102,7 @@ const rainbowClickEvent = event => {
 const mouseEnter = (event) => {
   const div = event.target;
   if (mouseDown) {
+    clearFadeTimeout();
     div.classList.add('paint');
     if (rainbowOn) {
       div.style.backgroundColor = rainbowArray[Math.floor(Math.random() * 7)];
@@ -106,7 +122,7 @@ const mouseMove = (event) => {
   if (mouseDown) {
     const activeColor = rainbowOn ? 'rainbow' : drawColor;
     lineCoords.push({ x: xVal, y: yVal, color: activeColor });
-  } else if ((yVal > 0.8*gridSize) && (controlVisible === false)){
+  } else if ((yVal > 0.8 * gridSize) && (controlVisible === false)) {
     fadeInControls();
   }
 }
@@ -117,6 +133,7 @@ function addPixel(size, parentContainer) {
   pixel.style.width = `${size}px`;
   pixel.classList.add('grid-pixel', `pixel-${pixelCount++}`);
   pixel.addEventListener('mouseenter', mouseEnter);
+  pixel.addEventListener('mousedown', mouseDownPixel);
   parentContainer.appendChild(pixel);
   return pixel;
 }

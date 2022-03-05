@@ -81,6 +81,7 @@ label {
   bottom: -7%;
   /* visibility: hidden; */
   transition: bottom .2s ease-out .2s;
+  box-shadow: 2px 5px 10px 0px rgba(0,0,0,.35);
 }
 
 .grid-container {
