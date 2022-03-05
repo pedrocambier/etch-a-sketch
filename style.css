@@ -79,7 +79,7 @@ label {
   border-radius: 24px;
   position: absolute;
   bottom: -7%;
-  visibility: hidden;
+  /* visibility: hidden; */
   transition: bottom .2s ease-out .2s;
 }
 

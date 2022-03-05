@@ -8,6 +8,7 @@ let drawColor = "black";
 let rainbowOn = false;
 const slider = document.getElementById("myRange");
 const gridSize = 960;
+const controlVisible = false;
 
 slider.onchange = function () {
   const div = containerDiv;
@@ -78,9 +79,10 @@ const mouseMove = (event) => {
 
   if (mouseDown) {
     lineCoords.push({ x: xVal, y: yVal, color: drawColor });
-  } else if (yVal > 0.8*gridSize) {
-    controlsContainer.style.visibility = 'visible';
+  } else if ((yVal > 0.8*gridSize) && (controlVisible === false)){
     controlsContainer.style.bottom = '5%';
+    setTimeout( function() {controlsContainer.style.bottom = '-7%'}, 5000);
+    controlVisible = true;
   }
 }
 
