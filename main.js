@@ -78,8 +78,9 @@ const mouseMove = (event) => {
 
   if (mouseDown) {
     lineCoords.push({ x: xVal, y: yVal, color: drawColor });
-  } else if (yVal > 0.9*gridSize) {
+  } else if (yVal > 0.8*gridSize) {
     controlsContainer.style.visibility = 'visible';
+    controlsContainer.style.bottom = '5%';
   }
 }
 
