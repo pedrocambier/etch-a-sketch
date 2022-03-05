@@ -8,7 +8,35 @@ let drawColor = "black";
 let rainbowOn = false;
 const slider = document.getElementById("myRange");
 const gridSize = 960;
-const controlVisible = false;
+let controlVisible = false;
+let fadeTimeout;
+
+const fadeInControls = () => {
+  controlsContainer.style.bottom = '5%';
+  controlVisible = true;
+  fadeTimeout = setTimeout( fadeOutControls, 3000);
+}
+
+const fadeOutControls = () => {
+  controlsContainer.style.bottom = '-7%';
+  controlVisible = false;
+}
+
+const clearFadeTimeout = (reset = true) => {
+  clearTimeout(fadeTimeout);
+  if (reset) fadeOutControls();
+}
+
+const mouseEnterControls = event => {
+  clearFadeTimeout(false);
+}
+
+const mouseLeaveControls = event => {
+  fadeTimeout = setTimeout( fadeOutControls, 1000);
+}
+
+controlsContainer.addEventListener('mouseenter', mouseEnterControls);
+controlsContainer.addEventListener('mouseleave', mouseLeaveControls);
 
 slider.onchange = function () {
   const div = containerDiv;
@@ -75,14 +103,11 @@ const mouseMove = (event) => {
   const relY = childPos.y - parentPos.y;
   const xVal = relX + event.offsetX;
   const yVal = relY + event.offsetY;
-  console.log(`(${xVal}, ${yVal})`);
-
   if (mouseDown) {
-    lineCoords.push({ x: xVal, y: yVal, color: drawColor });
+    const activeColor = rainbowOn ? 'rainbow' : drawColor;
+    lineCoords.push({ x: xVal, y: yVal, color: activeColor });
   } else if ((yVal > 0.8*gridSize) && (controlVisible === false)){
-    controlsContainer.style.bottom = '5%';
-    setTimeout( function() {controlsContainer.style.bottom = '-7%'}, 5000);
-    controlVisible = true;
+    fadeInControls();
   }
 }
 
@@ -109,7 +134,8 @@ const mapLines = (parentContainer) => {
     const y = lineCoords[i].y + parentY;
     const nodeAtCoord = document.elementFromPoint(x, y);
     nodeAtCoord.classList.add('paint');
-    nodeAtCoord.style.backgroundColor = lineCoords[i].color;
+    const activeColor = (lineCoords[i].color === 'rainbow') ? rainbowArray[Math.floor(Math.random() * 7)] : lineCoords[i].color;
+    nodeAtCoord.style.backgroundColor = activeColor;
   }
 }
 
