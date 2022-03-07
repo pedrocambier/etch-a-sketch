@@ -14,7 +14,7 @@ let fadeTimeout;
 const fadeInControls = () => {
   controlsContainer.style.bottom = '5%';
   controlVisible = true;
-  fadeTimeout = setTimeout(fadeOutControls, 30000);
+  fadeTimeout = setTimeout(fadeOutControls, 3000);
 }
 
 const fadeOutControls = () => {
@@ -36,7 +36,7 @@ const mouseEnterControls = event => {
 }
 
 const mouseLeaveControls = event => {
-  fadeTimeout = setTimeout(fadeOutControls, 10000);
+  fadeTimeout = setTimeout(fadeOutControls, 1000);
 }
 
 const mouseDownPixel = event => {
@@ -74,8 +74,9 @@ const colorInput = event => {
   colorpicker.style.backgroundColor = drawColor;
 }
 
-window.addEventListener('mousedown', () => {
+window.addEventListener('mousedown', event => {
   mouseDown = true;
+  if(!event.target.classList.contains('slider')) event.preventDefault();
 });
 
 window.addEventListener('mouseup', () => {
@@ -149,10 +150,14 @@ const mapLines = (parentContainer) => {
   for (let i = 0; i < lineCoords.length; i++) {
     const x = lineCoords[i].x + parentX;
     const y = lineCoords[i].y + parentY;
+    controlsContainer.classList.add('controls-no-pointer-events');
     const nodeAtCoord = document.elementFromPoint(x, y);
-    nodeAtCoord.classList.add('paint');
-    const activeColor = (lineCoords[i].color === 'rainbow') ? rainbowArray[Math.floor(Math.random() * 7)] : lineCoords[i].color;
-    nodeAtCoord.style.backgroundColor = activeColor;
+    controlsContainer.classList.remove('controls-no-pointer-events');
+    if (nodeAtCoord.classList.contains('grid-pixel')) {
+      nodeAtCoord.classList.add('paint');
+      const activeColor = (lineCoords[i].color === 'rainbow') ? rainbowArray[Math.floor(Math.random() * 7)] : lineCoords[i].color;
+      nodeAtCoord.style.backgroundColor = activeColor;
+    }
   }
 }
 
