@@ -29,22 +29,17 @@ label {
   background-color: #000;
 }
 
-i {
-  display: inline-block;
-}
-
 .🌈 {
-  background:linear-gradient(90deg,
-                            rgba(76, 0, 130, 0.7),
-                            rgba(76, 0, 130, 0.7) 20%,
-                            rgba(0, 128, 0, 0.7) 20%,
-                            rgba(0, 128, 0, 0.7) 40%,
-                            rgba(255, 255, 0, 0.7) 40%,
-                            rgba(255, 255, 0, 0.7) 60%,
-                            rgba(255, 166, 0, 0.7) 60%,
-                            rgba(255, 166, 0, 0.7) 80%,
-                            rgba(255, 0, 0, 0.7) 80%
-  ) !important;
+  background: linear-gradient(90deg,
+      rgba(76, 0, 130, 0.7),
+      rgba(76, 0, 130, 0.7) 20%,
+      rgba(0, 128, 0, 0.7) 20%,
+      rgba(0, 128, 0, 0.7) 40%,
+      rgba(255, 255, 0, 0.7) 40%,
+      rgba(255, 255, 0, 0.7) 60%,
+      rgba(255, 166, 0, 0.7) 60%,
+      rgba(255, 166, 0, 0.7) 80%,
+      rgba(255, 0, 0, 0.7) 80%) !important;
 
 
 }
@@ -72,6 +67,16 @@ i {
   box-sizing: border-box
 }
 
+
+.icon-container {
+  box-sizing: border-box;
+  width: 960px;
+  height: 30px;
+  padding: 32px 12px;
+  display: flex;
+  align-items: center;
+}
+
 .container-position {
   position: relative;
   overflow: hidden;
@@ -85,7 +90,7 @@ i {
   bottom: -7%;
   /* visibility: hidden; */
   transition: bottom .2s ease-out .2s;
-  box-shadow: 2px 5px 10px 0px rgba(0,0,0,.35);
+  box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, .35);
 }
 
 .controls-no-pointer-events {
