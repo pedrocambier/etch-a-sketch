@@ -36,7 +36,7 @@ const mouseEnterControls = event => {
 }
 
 const mouseLeaveControls = event => {
-  fadeTimeout = setTimeout(fadeOutControls, 1000);
+  fadeTimeout = setTimeout(fadeOutControls, 3000);
 }
 
 const mouseDownPixel = event => {
